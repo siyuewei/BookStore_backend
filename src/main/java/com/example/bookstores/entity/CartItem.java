@@ -20,8 +20,10 @@ public class CartItem {
 //    private Long bookId;
 //    @Column(name = "user_id", length = 16, nullable = false)
 //    private Long userId;
+    @Column(name = "price", length = 16, nullable = false)
+    private Double price;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false)
     private Book book;
 
@@ -34,6 +36,7 @@ public class CartItem {
         this.amount = amount;
         this.book = book;
         this.user = user;
+        this.price = book.getPrice()*amount;
     }
 
     public CartItem() {

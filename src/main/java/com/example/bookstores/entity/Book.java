@@ -27,6 +27,10 @@ public class Book {
     private String description;
     @Column(name = "inventory", length = 8, nullable = false)
     private Integer inventory;
+    @Column(name = "sales", length = 8, nullable = false)
+    private Integer sales;
+    @Column(name = "isDelete", length = 8, nullable = false)
+    private Boolean isDelete;
     @Column(name = "image", length = 16384)
     private String image;
 

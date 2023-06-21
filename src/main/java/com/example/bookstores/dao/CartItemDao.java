@@ -17,6 +17,4 @@ public interface CartItemDao {
     Optional<CartItem> findCartItemByUserIdAndBookId(Long userId,Long bookId);
 
     void deleteCartByUserIdBookId(Long userId, Long bookId);
-
-
 }

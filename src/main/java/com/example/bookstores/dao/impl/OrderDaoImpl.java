@@ -7,6 +7,9 @@ import com.example.bookstores.repository.OrderItemRepository;
 import com.example.bookstores.repository.OrderRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -53,5 +56,30 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public void deleteOrderItemByOrderItemId(Long orderItemId) {
         orderItemRepository.deleteOrderItemById(orderItemId);
+    }
+
+    @Override
+    public Set<Order> getAllOrder() {
+        return orderRepository.getAllByUserIsTrue();
+    }
+
+    @Override
+    public List<Order> getOrdersByTime(Date beginTime, Date endTime) {
+        return orderRepository.getOrdersByPurchaseTimeBetween(beginTime, endTime);
+    }
+
+    @Override
+    public List<Order> getOrdersByTimeAndUserId(Date beginTime, Date endTime, Long userId) {
+        return orderRepository.getOrdersByPurchaseTimeBetweenAndUserId(beginTime, endTime, userId);
+    }
+
+    @Override
+    public Order getOrderById(Long orderId) {
+        return orderRepository.getOrderById(orderId);
+    }
+
+    @Override
+    public OrderItem getOrderItemById(Long orderItemId) {
+        return orderItemRepository.getOrderItemById(orderItemId);
     }
 }

@@ -1,7 +1,12 @@
 package com.example.bookstores.service;
 
 import com.example.bookstores.entity.Book;
+import com.example.bookstores.util.msg.Msg;
+import com.example.bookstores.util.request.BookForm.BookAmountPrice;
+import com.example.bookstores.util.request.BookForm.GerUserStatisticsForm;
+import com.example.bookstores.util.request.BookForm.GetUserBookForm;
 
+import java.util.Date;
 import java.util.List;
 
 public interface BookService {
@@ -9,7 +14,16 @@ public interface BookService {
 
     Book getBookByAuthor(String author);
 
-    void addBook(String title, String image, String desc, String author, String isbn, Double price, Integer inventory, String tagName);
-
     List<Book> getBooks();
+
+    void updateBook(Book book);
+
+    void deleteBook(Long id);
+
+    Msg addBook(Book book);
+
+    List<BookAmountPrice> getBookStatistics(Date beginTime, Date endTime);
+    List<GerUserStatisticsForm> getUserStatistics(Date beginTime, Date endTime);
+    GetUserBookForm getUserBookForms(Date beginTime, Date endTime, Long userId);
+
 }

@@ -1,8 +1,8 @@
 package com.example.bookstores.service.Impl;
 
+import com.example.bookstores.dao.BookDao;
 import com.example.bookstores.dao.OrderDao;
-import com.example.bookstores.dao.impl.BookDaoImpl;
-import com.example.bookstores.dao.impl.UserDaoImpl;
+import com.example.bookstores.dao.UserDao;
 import com.example.bookstores.entity.Book;
 import com.example.bookstores.entity.Order;
 import com.example.bookstores.entity.OrderItem;
@@ -12,17 +12,15 @@ import com.example.bookstores.util.request.OrderForm.AddOrderForm;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderDao orderDao ;
-    private final UserDaoImpl userDao;
-    private final BookDaoImpl bookDao;
+    private final UserDao userDao;
+    private final BookDao bookDao;
 
-    public OrderServiceImpl(OrderDao orderDao, UserDaoImpl userDao, BookDaoImpl bookDao) {
+    public OrderServiceImpl(OrderDao orderDao, UserDao userDao, BookDao bookDao) {
         this.orderDao = orderDao;
         this.userDao = userDao;
         this.bookDao = bookDao;
@@ -49,13 +47,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Set<Order> getOrderByUserId(Long userId) {
-        return orderDao.getOrderByUserId(userId);
+//        return orderDao.getOrderByUserId(userId);
+        Set<Order> orders = orderDao.getOrderByUserId(userId);
+        orders.removeIf(Order::getIsDelete);
+
+        Comparator<Order> orderComparator = Comparator.comparing(Order::getPurchaseTime).reversed();
+        TreeSet<Order> sortedOrders = new TreeSet<>(orderComparator);
+        sortedOrders.addAll(orders);
+
+        return sortedOrders;
     }
 
     @Override
     public void deleteOrderById(Long orderId) {
-        orderDao.deleteOrderById(orderId);
-        orderDao.deleteOrderItemByOrderId(orderId);
+        Order order = orderDao.getOrderById(orderId);
+        order.setIsDelete(true);
+        orderDao.saveOrder(order);
     }
 
     @Override
@@ -65,6 +72,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrderItemByOrderItemId(Long orderItemId) {
-        orderDao.deleteOrderItemByOrderItemId(orderItemId);
+        OrderItem orderItem = orderDao.getOrderItemById(orderItemId);
+        orderItem.setIsDelete(true);
+        orderDao.saveOrderItem(orderItem);
+    }
+
+    @Override
+    public Set<Order> getAllOrder() {
+        return orderDao.getAllOrder();
     }
 }

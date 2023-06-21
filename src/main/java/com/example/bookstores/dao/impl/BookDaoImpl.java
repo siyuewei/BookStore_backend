@@ -40,4 +40,19 @@ public class BookDaoImpl implements BookDao {
     public List<Book> getBooks() {
         return bookRepository.findAll();
     }
+
+    @Override
+    public void updateBook(Book book) {
+        bookRepository.save(book);
+    }
+
+    @Override
+    public void deleteBook(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    @Override
+    public void save(Book book) {
+        bookRepository.save(book);
+    }
 }

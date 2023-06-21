@@ -6,9 +6,12 @@ import com.example.bookstores.dao.OrderDao;
 import com.example.bookstores.dao.UserDao;
 import com.example.bookstores.entity.*;
 import com.example.bookstores.service.CartItemService;
+import com.example.bookstores.util.msg.Msg;
+import com.example.bookstores.util.msg.MsgUtil;
 import com.example.bookstores.util.request.CartForm.AddCartItemForm;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -86,15 +89,35 @@ public class CartItemItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public void checkOutCart(Long userId) {
-        LocalDate localDate = LocalDate.now();
-        Instant instant = localDate.atTime(LocalTime.MIDNIGHT).atZone(ZoneId.systemDefault()).toInstant();
-        Date purchaseDate = Date.from(instant);
+    public Msg checkOutCart(Long userId) {
+//        LocalDate localDate = LocalDate.now();
+//        Instant instant = localDate.atTime(LocalTime.MIDNIGHT).atZone(ZoneId.systemDefault()).toInstant();
+//        Date purchaseDate = Date.from(instant);
+
+
+
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        Date purchaseDate = new Date(System.currentTimeMillis());
 
         Double totalPrice = 0.0;
         User user = UserDao.getUserById(userId);
 
         Set<CartItem> cartItems = cartItemDao.getCartItemByUserId(userId);
+        for(CartItem cartItem : cartItems){
+            Book book = bookDao.getBookById(cartItem.getBook().getId());
+            if(book.getIsDelete()){
+                return MsgUtil.makeMsg(MsgUtil.ERROR,book.getName() + " 已下架",null);
+            }
+            if(book.getInventory() < cartItem.getAmount()) {
+                return MsgUtil.makeMsg(MsgUtil.ERROR,book.getName() + " 库存不足",null);
+            }
+        }
+
+
+        if(cartItems.isEmpty()) {
+            return MsgUtil.makeMsg(MsgUtil.ERROR,"购物车为空",null);
+        }
+
         for(CartItem cartItem : cartItems) {
             totalPrice += cartItem.getAmount() * cartItem.getBook().getPrice();
         }
@@ -102,10 +125,18 @@ public class CartItemItemServiceImpl implements CartItemService {
         orderDao.saveOrder(order);
 
         for(CartItem cartItem : cartItems) {
-            OrderItem orderItem = new OrderItem(cartItem.getAmount(),cartItem.getBook(),order);
+            OrderItem orderItem = new OrderItem(cartItem.getAmount(),cartItem.getBook(),cartItem.getAmount() * cartItem.getBook().getPrice(),order);
             orderDao.saveOrderItem(orderItem);
+
+            Book book = bookDao.getBookById(cartItem.getBook().getId());
+            book.setInventory(book.getInventory() - cartItem.getAmount());
+            book.setSales(book.getSales() + cartItem.getAmount());
+            bookDao.save(book);
+
             cartItemDao.deleteCartByUserIdBookId(userId,cartItem.getBook().getId());
         }
+
+        return MsgUtil.makeMsg(MsgUtil.SUCCESS,"购买成功",null);
     }
 
 }

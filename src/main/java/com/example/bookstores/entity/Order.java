@@ -1,5 +1,6 @@
 package com.example.bookstores.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,7 +22,11 @@ public class Order {
     @Column(name = "total_price", length = 16, nullable = false)
     private Double totalPrice;
 
+    @Column(name = "is_delete", nullable = false)
+    private Boolean isDelete = false;
+
     @Column(name = "purchase_time", length = 32, nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date purchaseTime;
 
     @OneToMany(mappedBy = "order",cascade=CascadeType.ALL)
@@ -29,7 +34,6 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @JsonIgnore
     private User user;
 
     public Order() {

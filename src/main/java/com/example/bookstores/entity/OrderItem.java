@@ -19,7 +19,13 @@ public class OrderItem {
     @Column(name = "amount", length = 16, nullable = false)
     private Integer amount;
 
-    @OneToOne
+    @Column(name = "price", length = 16, nullable = false)
+    private Double price;
+
+    @Column(name = "is_delete", nullable = false)
+    private Boolean isDelete = false;
+
+    @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false)
     private Book book;
 
@@ -31,9 +37,17 @@ public class OrderItem {
     public OrderItem() {
     }
 
+    public OrderItem(Integer amount, Book book, Double price, Order order) {
+        this.amount = amount;
+        this.book = book;
+        this.price = price;
+        this.order = order;
+    }
+
     public OrderItem(Integer amount, Book book, Order order) {
         this.amount = amount;
         this.book = book;
+        this.price = book.getPrice()*amount;
         this.order = order;
     }
 }

@@ -15,4 +15,10 @@ public interface BookDao {
     Book getBookById(Long id);
 
     List<Book> getBooks();
+
+    void updateBook(Book book);
+
+    void deleteBook(Long id);
+
+    void save(Book book);
 }

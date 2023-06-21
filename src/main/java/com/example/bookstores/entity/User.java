@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.util.List;
 
+
+
 @Getter
 @Setter
 @Entity
@@ -19,12 +21,23 @@ public class User {
     private String username;
     @Column(name = "name", length = 128)
     private String name;
-    @Column(name = "email", length = 128, unique = true)
+    @Column(name = "email", length = 128)
     private String email;
     @Column(name = "avatar", length = 10240)
     private String avatar;
     @Column(name = "notes", length = 10240)
     private String notes;
+
+    public enum Role {
+        CUSTOMER,
+        ADMIN
+    }
+    @Column(name = "role", length = 128,nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private Role role;
+
+    @Column(name = "status", length = 128,nullable = false)
+    private boolean status;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore

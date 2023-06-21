@@ -1,6 +1,7 @@
 package com.example.bookstores.service;
 
 import com.example.bookstores.entity.CartItem;
+import com.example.bookstores.util.msg.Msg;
 import com.example.bookstores.util.request.CartForm.AddCartItemForm;
 
 import java.util.Set;
@@ -14,5 +15,5 @@ public interface CartItemService {
 
     void deleteCartItemByUserIdBookId(Long userId, Long bookId);
 
-    void checkOutCart(Long userId);
+    Msg checkOutCart(Long userId);
 }

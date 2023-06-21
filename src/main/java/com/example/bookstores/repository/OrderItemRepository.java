@@ -10,4 +10,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     void deleteByBookId(Long bookId);
 
     void deleteOrderItemById(Long orderItemId);
+
+    OrderItem getOrderItemById(Long orderItemId);
 }
