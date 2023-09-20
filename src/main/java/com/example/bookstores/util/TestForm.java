@@ -1,12 +1,10 @@
-package com.example.bookstores.util.request.OrderForm;
+package com.example.bookstores.util;
+
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
-public class AddOrderForm {
+public class TestForm {
     private Long userId;
-    private List<Map<Long, Integer>> bookIdAndAmounts;
     private Date purchaseTime;
     private Double totalPrice;
 
@@ -14,9 +12,6 @@ public class AddOrderForm {
         return userId;
     }
 
-    public List<Map<Long, Integer>> getBookIdAndAmounts() {
-        return bookIdAndAmounts;
-    }
 
     public Date getPurchaseTime() {
         return purchaseTime;
@@ -30,9 +25,6 @@ public class AddOrderForm {
         this.userId = userId;
     }
 
-    public void setBookIdAndAmounts(List<Map<Long, Integer>> bookIdAndAmounts) {
-        this.bookIdAndAmounts = bookIdAndAmounts;
-    }
 
     public void setPurchaserTime(Date purchaseTime) {
         this.purchaseTime = purchaseTime;
@@ -47,8 +39,6 @@ public class AddOrderForm {
     public String toString() {
         return "AddOrderForm [userId=" +
                 userId +
-                ", bookIdAndAmounts=" +
-                bookIdAndAmounts +
                 ", purchaseTime=" +
                 purchaseTime +
                 ", totalPrice=" +

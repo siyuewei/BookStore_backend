@@ -9,14 +9,13 @@ import com.example.bookstores.entity.OrderItem;
 import com.example.bookstores.entity.User;
 import com.example.bookstores.service.OrderService;
 import com.example.bookstores.util.request.OrderForm.AddOrderForm;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-    private final OrderDao orderDao ;
+    private final OrderDao orderDao;
     private final UserDao userDao;
     private final BookDao bookDao;
 
@@ -29,13 +28,21 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean addOrder(AddOrderForm addOrderForm) {
         User user = userDao.getUserById(addOrderForm.getUserId());
-        Order order = new Order(addOrderForm.getTotalPrice(),addOrderForm.getPurchaseTime(),user);
-        Pair<Long,Integer>[] bookIdAndAmounts = addOrderForm.getBookIdAndAmounts();
+        Order order = new Order(addOrderForm.getTotalPrice(), addOrderForm.getPurchaseTime(), user);
+        List<Map<Long, Integer>> bookIdAndAmounts = addOrderForm.getBookIdAndAmounts();
         List<OrderItem> orderItems = new ArrayList<>();
-        for (Pair<Long,Integer> bookIdAndAmount : bookIdAndAmounts) {
-            Book book = bookDao.getBookById(bookIdAndAmount.getFirst());
-            OrderItem orderItem = new OrderItem(bookIdAndAmount.getSecond(),book,order);
-            orderItems.add(orderItem);
+        for (Map<Long, Integer> bookIdAndAmount : bookIdAndAmounts) {
+            for (Map.Entry<Long, Integer> entry : bookIdAndAmount.entrySet()) {
+                Long bookId = entry.getKey();
+                Integer amount = entry.getValue();
+
+                // 使用 bookId 获取 Book 对象
+                Book book = bookDao.getBookById(bookId);
+
+                // 创建 OrderItem 对象并添加到 orderItems 列表
+                OrderItem orderItem = new OrderItem(amount, book, order);
+                orderItems.add(orderItem);
+            }
         }
         order.setOrderItems(orderItems);
         orderDao.saveOrder(order);

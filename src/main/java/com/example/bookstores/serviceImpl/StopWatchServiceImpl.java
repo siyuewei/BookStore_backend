@@ -16,7 +16,6 @@ public class StopWatchServiceImpl implements StopWatchService {
     @Override
     public boolean startStopWatch() {
 //        log.info("service调用开始计时函数" + this.hashCode() + "\n");
-
         if (stopWatch.isRunning()) {
             return false;
         }
@@ -28,7 +27,6 @@ public class StopWatchServiceImpl implements StopWatchService {
     //返回总时间
     public double stopStopWatch() {
 //        log.info("service调用结束计时函数" + this.hashCode() + "\n");
-
         if (!stopWatch.isRunning()) {
             return -1;
         }
