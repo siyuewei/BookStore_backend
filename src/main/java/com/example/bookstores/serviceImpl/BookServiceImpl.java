@@ -1,4 +1,4 @@
-package com.example.bookstores.service.Impl;
+package com.example.bookstores.serviceImpl;
 
 import com.example.bookstores.dao.BookDao;
 import com.example.bookstores.dao.OrderDao;

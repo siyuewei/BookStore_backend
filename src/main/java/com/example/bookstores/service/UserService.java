@@ -14,6 +14,7 @@ public interface UserService {
     void updateUser(UpdateUserForm updateUserForm);
     Set<User> getAllUser();
     void changeState(String username, boolean status);
-
     void updateAvatar(Long userId, String avatar);
+    User getUserByUsername(String username);
+
 }

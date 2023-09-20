@@ -1,4 +1,4 @@
-package com.example.bookstores.service.Impl;
+package com.example.bookstores.serviceImpl;
 import net.sf.json.JSONObject;
 import com.example.bookstores.dao.UserDao;
 import com.example.bookstores.entity.User;
@@ -8,7 +8,6 @@ import com.example.bookstores.util.msg.Msg;
 import com.example.bookstores.util.msg.MsgUtil;
 import com.example.bookstores.util.request.UserForm.AddUserForm;
 import com.example.bookstores.util.request.UserForm.UpdateUserForm;
-import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -105,5 +104,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateAvatar(Long userId, String avatar) {
         userDao.updateAvatar(userId,avatar);
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userDao.findByUsername(username);
     }
 }

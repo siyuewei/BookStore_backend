@@ -22,16 +22,22 @@ import java.util.UUID;
 @CrossOrigin(value = "http://localhost:3000")
 public class ImageController {
     @GetMapping(value = "/{img_name}")
-    public void findImg(@PathVariable("img_name") String img_name, @NotNull HttpServletResponse response) throws IOException {
+    public Msg findImg(@PathVariable("img_name") String img_name, @NotNull HttpServletResponse response) throws IOException {
         if (img_name.equals("null")) {
-            return;
+            return MsgUtil.makeMsg(MsgUtil.ERROR, "img_name is null", null);
         }
-        String path = ResourceUtils.getURL("classpath:").getPath() + "static/";
-        File file = new File(path + img_name);
-        BufferedImage image = ImageIO.read(file);
-        OutputStream outputStream = response.getOutputStream();
-        ImageIO.write(image, "png", outputStream);
-        response.setHeader("content-type", "image/png");
+        try{
+            String path = ResourceUtils.getURL("classpath:").getPath() + "static/";
+            File file = new File(path + img_name);
+            BufferedImage image = ImageIO.read(file);
+            OutputStream outputStream = response.getOutputStream();
+            ImageIO.write(image, "png", outputStream);
+            response.setHeader("content-type", "image/png");
+        }catch (IOException e){
+            return MsgUtil.makeMsg(MsgUtil.ERROR, "img_name is null"+e.getMessage(),null );
+        }
+
+        return MsgUtil.makeMsg(MsgUtil.SUCCESS, "success", null);
     }
 
     @PostMapping(value = "/upload")

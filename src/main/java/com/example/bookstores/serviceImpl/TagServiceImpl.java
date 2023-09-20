@@ -1,4 +1,4 @@
-package com.example.bookstores.service.Impl;
+package com.example.bookstores.serviceImpl;
 
 import com.example.bookstores.dao.TagDao;
 import com.example.bookstores.entity.Tag;
