@@ -1,9 +1,9 @@
 package com.example.bookstores.controller;
 
 import com.example.bookstores.entity.User;
-import com.example.bookstores.service.StopWatchService;
 import com.example.bookstores.service.UserService;
-import com.example.bookstores.serviceImpl.TokenService;
+import com.example.bookstores.service.util.StopWatchService;
+import com.example.bookstores.serviceImpl.TokenServiceImpl;
 import com.example.bookstores.util.msg.Msg;
 import com.example.bookstores.util.msg.MsgUtil;
 import com.example.bookstores.util.request.UserForm.AddUserForm;
@@ -27,13 +27,13 @@ public class UserController {
 
     private final UserService userService;
 
-    private final TokenService tokenService;
+    private final TokenServiceImpl tokenService;
 
     private final WebApplicationContext applicationContext;
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    public UserController(UserService userService, TokenService tokenService, WebApplicationContext applicationContext) {
+    public UserController(UserService userService, TokenServiceImpl tokenService, WebApplicationContext applicationContext) {
         this.userService = userService;
         this.tokenService = tokenService;
         this.applicationContext = applicationContext;

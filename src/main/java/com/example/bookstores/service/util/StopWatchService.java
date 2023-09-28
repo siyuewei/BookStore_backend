@@ -1,4 +1,4 @@
-package com.example.bookstores.service;
+package com.example.bookstores.service.util;
 
 public interface StopWatchService {
     boolean startStopWatch();

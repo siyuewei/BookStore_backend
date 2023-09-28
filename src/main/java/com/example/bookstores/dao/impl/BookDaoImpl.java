@@ -4,6 +4,9 @@ import com.example.bookstores.dao.BookDao;
 import com.example.bookstores.entity.Book;
 import com.example.bookstores.repository.BookRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,6 +55,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public void save(Book book) {
         bookRepository.save(book);
     }

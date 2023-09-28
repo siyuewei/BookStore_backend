@@ -2,6 +2,7 @@ package com.example.bookstores.serviceImpl;
 
 import com.example.bookstores.dao.BookDao;
 import com.example.bookstores.dao.OrderDao;
+import com.example.bookstores.dao.OrderItemDao;
 import com.example.bookstores.dao.UserDao;
 import com.example.bookstores.entity.Book;
 import com.example.bookstores.entity.Order;
@@ -16,11 +17,13 @@ import java.util.*;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderDao orderDao;
+    private final OrderItemDao orderItemDao;
     private final UserDao userDao;
     private final BookDao bookDao;
 
-    public OrderServiceImpl(OrderDao orderDao, UserDao userDao, BookDao bookDao) {
+    public OrderServiceImpl(OrderDao orderDao, OrderItemDao orderItemDao, UserDao userDao, BookDao bookDao) {
         this.orderDao = orderDao;
+        this.orderItemDao = orderItemDao;
         this.userDao = userDao;
         this.bookDao = bookDao;
     }
@@ -47,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderItems(orderItems);
         orderDao.saveOrder(order);
         for (OrderItem orderItem : orderItems) {
-            orderDao.saveOrderItem(orderItem);
+            orderItemDao.saveOrderItem(orderItem);
         }
         return true;
     }
@@ -74,14 +77,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrderItemByBookId(Long bookId) {
-        orderDao.deleteOrderItemByBookId(bookId);
+        orderItemDao.deleteOrderItemByBookId(bookId);
     }
 
     @Override
     public void deleteOrderItemByOrderItemId(Long orderItemId) {
-        OrderItem orderItem = orderDao.getOrderItemById(orderItemId);
+        OrderItem orderItem = orderItemDao.getOrderItemById(orderItemId);
         orderItem.setIsDelete(true);
-        orderDao.saveOrderItem(orderItem);
+        orderItemDao.saveOrderItem(orderItem);
     }
 
     @Override

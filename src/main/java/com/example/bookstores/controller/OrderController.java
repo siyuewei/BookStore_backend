@@ -4,8 +4,6 @@ package com.example.bookstores.controller;
 import com.example.bookstores.entity.Order;
 import com.example.bookstores.service.OrderService;
 import com.example.bookstores.util.TestForm;
-import com.example.bookstores.util.msg.Msg;
-import com.example.bookstores.util.msg.MsgUtil;
 import com.example.bookstores.util.request.OrderForm.AddOrderForm;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
@@ -21,22 +19,22 @@ import java.util.Set;
 public class OrderController {
     private final OrderService orderService;
     private final KafkaTemplate<String, AddOrderForm> kafkaTemplate;
-    private final KafkaTemplate<String, TestForm> kafkaTemplate2;
 
     public OrderController(OrderService orderService, KafkaTemplate<String, AddOrderForm> kafkaTemplate, KafkaTemplate<String, TestForm> kafkaTemplate2) {
         this.orderService = orderService;
         this.kafkaTemplate = kafkaTemplate;
-        this.kafkaTemplate2 = kafkaTemplate2;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-//    boolean addOrder(@RequestBody @NotNull AddOrderForm addOrderForm){
-//        return orderService.addOrder(addOrderForm);
+    //TODO: remove comment
+//    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    //    Msg addOrder(@RequestBody @NotNull AddOrderForm addOrderForm) {
+//        kafkaTemplate.send("order", addOrderForm);
+//        return MsgUtil.makeMsg(MsgUtil.SUCCESS, "Order added successfully");
 //    }
-    Msg addOrder(@RequestBody @NotNull AddOrderForm addOrderForm) {
-        kafkaTemplate.send("order", addOrderForm);
-        return MsgUtil.makeMsg(MsgUtil.SUCCESS, "Order added successfully");
-    }
+////    boolean addOrder(@RequestBody @NotNull AddOrderForm addOrderForm){
+////        return orderService.addOrder(addOrderForm);
+////    }
+
 //    void addOrder(@RequestBody @NotNull TestForm testForm) {
 //        kafkaTemplate2.send("order", testForm);
 //    }
