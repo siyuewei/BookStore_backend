@@ -13,7 +13,10 @@ import com.example.bookstores.util.request.BookForm.GerUserStatisticsForm;
 import com.example.bookstores.util.request.BookForm.GetUserBookForm;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -50,9 +53,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBook(Long id) {
-        Book book = bookDao.getBookById(id);
-        book.setIsDelete(true);
-        bookDao.updateBook(book);
+//        Book book = bookDao.getBookById(id);
+//        book.setIsDelete(true);
+//        bookDao.updateBook(book);
+        bookDao.deleteBook(id);
     }
 
     @Override
@@ -62,7 +66,7 @@ public class BookServiceImpl implements BookService {
             if (bookIn.getName().equals(book.getName())) {
                 return MsgUtil.makeMsg(MsgUtil.ERROR, "已有同名书籍");
             }
-            if(Objects.equals(bookIn.getIsbn(), book.getIsbn())){
+            if (Objects.equals(bookIn.getIsbn(), book.getIsbn())) {
                 return MsgUtil.makeMsg(MsgUtil.ERROR, "已有ISBN相同的书籍");
             }
         }
@@ -89,8 +93,8 @@ public class BookServiceImpl implements BookService {
                         break;
                     }
                 }
-                if(!isExist){
-                    bookStatistics.add(new BookAmountPrice(book,amount,price));
+                if (!isExist) {
+                    bookStatistics.add(new BookAmountPrice(book, amount, price));
                 }
 
             });
@@ -147,8 +151,8 @@ public class BookServiceImpl implements BookService {
                     break;
                 }
             }
-            if(!isExist){
-                userStatistics.add(new GerUserStatisticsForm(user,totalPrice
+            if (!isExist) {
+                userStatistics.add(new GerUserStatisticsForm(user, totalPrice
 //                        , bookAmountPrices
                 ));
             }
@@ -172,18 +176,18 @@ public class BookServiceImpl implements BookService {
                 Double price = orderItem.getPrice();
 
                 boolean isExist = false;
-                for(BookAmountPrice bookAmountPrice: userBookForms.getBookAmountPrices()){
-                    if(bookAmountPrice.getBook().equals(book)){
+                for (BookAmountPrice bookAmountPrice : userBookForms.getBookAmountPrices()) {
+                    if (bookAmountPrice.getBook().equals(book)) {
                         Integer newAmount = bookAmountPrice.getAmount() + amount;
                         Double newPrice = bookAmountPrice.getPrice() + price;
                         userBookForms.getBookAmountPrices().remove(bookAmountPrice);
-                        userBookForms.getBookAmountPrices().add(new BookAmountPrice(book,newAmount,newPrice));
+                        userBookForms.getBookAmountPrices().add(new BookAmountPrice(book, newAmount, newPrice));
                         isExist = true;
                         break;
                     }
                 }
-                if(!isExist){
-                    userBookForms.getBookAmountPrices().add(new BookAmountPrice(book,amount,price));
+                if (!isExist) {
+                    userBookForms.getBookAmountPrices().add(new BookAmountPrice(book, amount, price));
                 }
             });
         });

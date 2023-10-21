@@ -1,7 +1,7 @@
 package com.example.bookstores.kafkaListener;
 
 import com.example.bookstores.service.CartItemService;
-import com.example.bookstores.websocket.WebSocketServer;
+import com.example.bookstores.util.websocket.WebSocketServer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
