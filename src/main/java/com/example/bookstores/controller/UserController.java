@@ -20,7 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.Set;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value = "api/user")
 @Transactional
 public class UserController {
