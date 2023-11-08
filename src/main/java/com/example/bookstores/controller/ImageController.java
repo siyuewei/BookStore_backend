@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/img")
-@CrossOrigin(value = "http://localhost:3000")
+//@CrossOrigin(value = "http://localhost:3000")
 public class ImageController {
     @GetMapping(value = "/{img_name}")
     public Msg findImg(@PathVariable("img_name") String img_name, @NotNull HttpServletResponse response) throws IOException {
