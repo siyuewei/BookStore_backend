@@ -1,6 +1,7 @@
 package com.example.bookstores.dao;
 
 import com.example.bookstores.entity.Book;
+import com.example.bookstores.util.msg.Msg;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +17,7 @@ public interface BookDao {
 
     List<Book> getBooks();
 
-    void updateBook(Book book);
+    Msg updateBook(Book book);
 
     void deleteBook(Long id);
 

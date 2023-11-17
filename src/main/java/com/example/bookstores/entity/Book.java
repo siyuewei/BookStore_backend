@@ -34,6 +34,7 @@ public class Book {
     @Column(name = "image", length = 16384)
     private String image;
 
+
     @JsonIgnoreProperties(value = {"books"})
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "book_tag",
@@ -42,14 +43,15 @@ public class Book {
     )
     private List<Tag> tags;
 
-    public Book(String name, String image, String description, String author, String ISBN, Double price, Integer inventory, List<Tag> tags) {
+
+    public Book(String name, String description, String author, String ISBN, Double price, Integer inventory,String image, List<Tag> tags) {
         this.name = name;
-        this.image = image;
         this.author = author;
         this.description = description;
         this.isbn = ISBN;
         this.price = price;
         this.inventory = inventory;
+        this.image = image;
         this.tags = tags;
     }
 

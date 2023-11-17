@@ -42,8 +42,8 @@ public class BookController {
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    void updateBook(@RequestBody @NotNull Book book){
-        bookService.updateBook(book);
+    Msg updateBook(@RequestBody @NotNull Book book){
+        return bookService.updateBook(book);
     }
 
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)

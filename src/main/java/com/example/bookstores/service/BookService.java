@@ -16,7 +16,7 @@ public interface BookService {
 
     List<Book> getBooks();
 
-    void updateBook(Book book);
+    Msg updateBook(Book book);
 
     void deleteBook(Long id);
 

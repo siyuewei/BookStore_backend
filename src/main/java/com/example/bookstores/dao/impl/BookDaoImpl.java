@@ -3,6 +3,8 @@ package com.example.bookstores.dao.impl;
 import com.example.bookstores.dao.BookDao;
 import com.example.bookstores.entity.Book;
 import com.example.bookstores.repository.BookRepository;
+import com.example.bookstores.util.msg.Msg;
+import com.example.bookstores.util.msg.MsgUtil;
 import com.example.bookstores.util.redis.RedisUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -21,7 +24,7 @@ public class BookDaoImpl implements BookDao {
     private final RedisUtil redisUtil;
     private final Logger loggerFactory = LoggerFactory.getLogger(BookDaoImpl.class);
 
-    public BookDaoImpl(BookRepository bookRepository, RedisUtil redisUtil) {
+    public BookDaoImpl(BookRepository bookRepository,  RedisUtil redisUtil) {
         this.bookRepository = bookRepository;
         this.redisUtil = redisUtil;
     }
@@ -91,15 +94,31 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void updateBook(Book book) {
+    public Msg updateBook(Book book) {
+        List<Book> bookList = bookRepository.findAll();
+        for(Book albook:bookList){
+            if(!Objects.equals(albook.getId(), book.getId())){
+                if(Objects.equals(albook.getName(), book.getName())){
+                    return MsgUtil.makeMsg(MsgUtil.ERROR,"已有同名书籍");
+                }
+                if(Objects.equals(albook.getIsbn(), book.getIsbn())){
+                    return MsgUtil.makeMsg(MsgUtil.ERROR,"已有同样的ISBN");
+                }
+            }
+        }
+
         //数据库中更新
         bookRepository.save(book);
         //缓存中更新
         Object bookCache = redisUtil.get("book:" + book.getId());
         if (bookCache != null) {
             redisUtil.del("book:" + book.getId());
+            loggerFactory.info("从redis中删除");
         }
         redisUtil.set("book:" + book.getId(), book);
+        loggerFactory.info("添加修改后的到redis中");
+
+        return MsgUtil.makeMsg(MsgUtil.SUCCESS,"修改成功");
     }
 
     @Override
@@ -120,6 +139,7 @@ public class BookDaoImpl implements BookDao {
     public void save(Book book) {
         //数据库中加一份
         bookRepository.save(book);
+
         //缓存中加一份
         redisUtil.set("book:" + book.getId(), book);
     }
