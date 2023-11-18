@@ -22,4 +22,5 @@ public interface BookDao {
     void deleteBook(Long id);
 
     void save(Book book);
+    List<Book> searchBooksByTag(String tag);
 }

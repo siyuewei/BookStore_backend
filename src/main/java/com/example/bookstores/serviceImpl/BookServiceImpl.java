@@ -194,4 +194,16 @@ public class BookServiceImpl implements BookService {
 
         return userBookForms;
     }
+
+    @Override
+    public List<Book> searchBooksByTag(String tag) {
+        List<Book> bookList = bookDao.searchBooksByTag(tag);
+        for(Book book : bookList){
+            if (!book.getIsDelete()) {
+                continue;
+            }
+            bookList.remove(book);
+        }
+        return bookList;
+    }
 }
