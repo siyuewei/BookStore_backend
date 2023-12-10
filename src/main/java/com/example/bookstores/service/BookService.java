@@ -27,4 +27,6 @@ public interface BookService {
     GetUserBookForm getUserBookForms(Date beginTime, Date endTime, Long userId);
     List<Book> searchBooksByTag(String tag);
 
+    Book getBookByName(String name);
+
 }

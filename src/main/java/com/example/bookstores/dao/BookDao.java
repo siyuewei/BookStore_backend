@@ -23,4 +23,5 @@ public interface BookDao {
 
     void save(Book book);
     List<Book> searchBooksByTag(String tag);
+    Book getBookByName(String name);
 }

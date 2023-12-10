@@ -218,4 +218,10 @@ public class BookDaoImpl implements BookDao {
         return books;
 
     }
+
+    @Override
+    public Book getBookByName(String name) {
+        return bookRepository.getByName(name);
+    }
+
 }

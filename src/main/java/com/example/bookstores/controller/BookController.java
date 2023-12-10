@@ -12,6 +12,8 @@ import jakarta.transaction.Transactional;
 import jakarta.websocket.server.PathParam;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -19,7 +21,7 @@ import java.util.List;
 
 @RestController
 //@CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(value = "api/book")
+//@RequestMapping(value = "api/book")
 @Transactional
 public class BookController {
     private final BookService bookService;
@@ -31,47 +33,47 @@ public class BookController {
         this.bookTagRepository = bookTagRepository;
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "api/book/{id}",method = RequestMethod.GET)
     Book getBookById(@PathVariable Long id){
         return bookService.getBookById(id);
     }
 
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @RequestMapping(value = "api/book/add",method = RequestMethod.POST)
     Msg addBook(@RequestBody Book book){
         return bookService.addBook(book);
     }
 
-    @RequestMapping(value = "/get",method = RequestMethod.GET)
+    @RequestMapping(value = "api/book/get",method = RequestMethod.GET)
     List<Book> getAllBooks(){
         return bookService.getBooks();
     }
 
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @RequestMapping(value = "api/book/update",method = RequestMethod.POST)
     Msg updateBook(@RequestBody @NotNull Book book){
         return bookService.updateBook(book);
     }
 
-    @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "api/book/delete/{id}",method = RequestMethod.DELETE)
     void deleteBook(@PathVariable Long id){
         bookService.deleteBook(id);
     }
 
 
-    @RequestMapping(value = "/get/statistics/byBook",method = RequestMethod.GET)
+    @RequestMapping(value = "api/book/get/statistics/byBook",method = RequestMethod.GET)
     List<BookAmountPrice> getBookStatisticsByBook(
             @PathParam("beginTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date beginTime,
             @PathParam("endTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date endTime){
         return bookService.getBookStatistics(beginTime,endTime);
     }
 
-    @RequestMapping(value = "/get/statistics/byUser",method = RequestMethod.GET)
+    @RequestMapping(value = "api/book/get/statistics/byUser",method = RequestMethod.GET)
     List<GerUserStatisticsForm> getBookStatisticsByUser(
             @PathParam("beginTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date beginTime,
             @PathParam("endTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date endTime){
         return bookService.getUserStatistics(beginTime,endTime);
     }
 
-    @RequestMapping(value = "/get/statistics/{userId}",method = RequestMethod.GET)
+    @RequestMapping(value = "api/book/get/statistics/{userId}",method = RequestMethod.GET)
     GetUserBookForm getUserBookForms(
             @PathParam("beginTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date beginTime,
             @PathParam("endTime") @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") Date endTime,
@@ -79,12 +81,12 @@ public class BookController {
         return bookService.getUserBookForms(beginTime,endTime,userId);
     }
 
-    @RequestMapping(value = "/searchByTag", method = RequestMethod.GET)
+    @RequestMapping(value = "api/book/searchByTag", method = RequestMethod.GET)
     public List<Book> searchBooksByTag(@PathParam("tag") String tag) {
         return bookService.searchBooksByTag(tag);
     }
 
-    @RequestMapping(value = "/neo4j", method = RequestMethod.GET)
+    @RequestMapping(value = "api/book/neo4j", method = RequestMethod.GET)
     public List<Book> testNeo4j() {
         bookTagRepository.deleteAll();
 
@@ -135,5 +137,11 @@ public class BookController {
         bookTagRepository.save(booktag6);
 
         return null;
+    }
+
+    @QueryMapping
+    public Book getBookByName(@Argument String name)
+    {
+        return bookService.getBookByName(name);
     }
 }
