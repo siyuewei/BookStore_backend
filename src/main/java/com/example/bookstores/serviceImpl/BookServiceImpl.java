@@ -47,8 +47,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void updateBook(Book book) {
-        bookDao.updateBook(book);
+    public Msg updateBook(Book book) {
+        return bookDao.updateBook(book);
     }
 
     @Override
@@ -194,4 +194,22 @@ public class BookServiceImpl implements BookService {
 
         return userBookForms;
     }
+
+    @Override
+    public List<Book> searchBooksByTag(String tag) {
+        List<Book> bookList = bookDao.searchBooksByTag(tag);
+        for(Book book : bookList){
+            if (!book.getIsDelete()) {
+                continue;
+            }
+            bookList.remove(book);
+        }
+        return bookList;
+    }
+
+    @Override
+    public Book getBookByName(String name) {
+        return bookDao.getBookByName(name);
+    }
+
 }

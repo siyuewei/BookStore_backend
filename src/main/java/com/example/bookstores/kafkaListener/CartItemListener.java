@@ -31,6 +31,8 @@ public class CartItemListener {
         try {
             cartItemService.checkOutCart(record.value());
             kafkaTemplate.send("order_success", record.value());
+            log.info(String.valueOf(record.value()));
+            log.info("Get checkout request!!!");
         } catch (Exception e) {
             log.error("Error processing Kafka message: " + e.getMessage(), e);
         }
@@ -39,6 +41,7 @@ public class CartItemListener {
     @KafkaListener(topics = "order_success", groupId = "topic-order")
     public void addOrderSuccess(ConsumerRecord<String, Long> record) {
         log.info(String.valueOf(record.value()));
+        log.info("Send success message!!!");
         webSocketServer.sendMessageToUser(record.value().toString(), "Add order successfully");
     }
 }

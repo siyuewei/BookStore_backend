@@ -16,7 +16,7 @@ public interface BookService {
 
     List<Book> getBooks();
 
-    void updateBook(Book book);
+    Msg updateBook(Book book);
 
     void deleteBook(Long id);
 
@@ -25,5 +25,8 @@ public interface BookService {
     List<BookAmountPrice> getBookStatistics(Date beginTime, Date endTime);
     List<GerUserStatisticsForm> getUserStatistics(Date beginTime, Date endTime);
     GetUserBookForm getUserBookForms(Date beginTime, Date endTime, Long userId);
+    List<Book> searchBooksByTag(String tag);
+
+    Book getBookByName(String name);
 
 }

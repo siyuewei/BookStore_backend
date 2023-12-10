@@ -31,26 +31,21 @@ public class Book {
     private Integer sales;
     @Column(name = "isDelete", length = 8, nullable = false)
     private Boolean isDelete;
-    @Column(name = "image", length = 16384)
+    @Column(name = "image", length = 2048)
     private String image;
+    @Column(name = "tag", length = 2048)
+    private String tag;
 
-    @JsonIgnoreProperties(value = {"books"})
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "book_tag",
-            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"),
-            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id")
-    )
-    private List<Tag> tags;
 
-    public Book(String name, String image, String description, String author, String ISBN, Double price, Integer inventory, List<Tag> tags) {
+    public Book(String name, String description, String author, String ISBN, Double price, Integer inventory,String image, String tag) {
         this.name = name;
-        this.image = image;
         this.author = author;
         this.description = description;
         this.isbn = ISBN;
         this.price = price;
         this.inventory = inventory;
-        this.tags = tags;
+        this.image = image;
+        this.tag = tag;
     }
 
     public Book() {

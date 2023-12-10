@@ -1,8 +1,8 @@
 package com.example.bookstores.service.util;
 
 public interface StopWatchService {
-    boolean startStopWatch();
+    void startStopWatch();
 
     //返回总时间
-    double stopStopWatch();
+    long stopStopWatch();
 }
