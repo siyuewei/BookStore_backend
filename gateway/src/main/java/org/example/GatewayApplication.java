@@ -26,6 +26,8 @@ public class GatewayApplication {
 				.route(r -> r.path("/websocket/**")
 //						.filters(f -> f.rewritePath("/web",""))
 						.uri("lb://MAIN-SERVICE")
+				).route(r -> r.path("/graphql/**")
+								.uri("lb://MAIN-SERVICE")
 				)
 				.build();
 	}
