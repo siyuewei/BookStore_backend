@@ -1,0 +1,19 @@
+   This book introduces the concepts of computer networking in a top-down manner, covering network architectures, protocols, and applications. Suitable for computer science students and readers interested in computer networks.
+
+   This book is an authoritative work in the field of deep learning, covering the fundamental principles and applications. Ideal for professionals seeking an in-depth understanding of artificial intelligence and neural networks.
+
+   This book is a classic in the field of algorithms, providing a detailed introduction to the design and analysis of algorithms. It has a profound impact on computer science and engineering students and professionals involved in algorithm research.
+
+   Widely used as a textbook on artificial intelligence, this book introduces the fundamental concepts, methods, and applications of AI. Suitable for computer science students and readers interested in AI.
+
+   Through a series of selected programming problems and solutions, this book showcases efficient and elegant programming techniques. Suitable for readers with a basic understanding of programming.
+
+   This book introduces the fundamental principles of computer architecture and performance evaluation methods. Suitable for readers interested in hardware design and optimizing computer system performance.
+
+   Focusing on writing clean and maintainable code, this book provides practical advice and principles for software developers. It is essential for anyone looking to improve their coding practices within an agile development environment.
+
+   This book offers practical tips and techniques for software development, covering a wide range of topics from code organization to debugging. It's a valuable resource for programmers at all skill levels.
+
+   Known as the Gang of Four book, it explores design patterns in object-oriented software development. It is a seminal work for software engineers seeking to improve their design skills and create more maintainable systems.
+
+    This comprehensive guide covers the entire software construction process, providing practical advice on writing high-quality code. It's a valuable resource for software developers aiming to enhance their coding and software engineering skills.
